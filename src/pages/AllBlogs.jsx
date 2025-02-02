@@ -32,7 +32,8 @@ const AllBlogs = () => {
                 <span className="font-medium text-orange-700">Category: </span>
                 {blog.category}
               </p>
-              <p className="text-gray-600 mb-4">{blog.content}</p>
+              <p className="text-gray-600 mb-4">{blog.content.slice(0, 200)}...</p>
+
               <div className="flex justify-between text-sm text-gray-500">
                 <span>{blog.date}</span>
               </div>

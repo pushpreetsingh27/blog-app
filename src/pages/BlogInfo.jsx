@@ -1,39 +1,70 @@
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase/config';
 
 const BlogInfo = () => {
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const params = useParams()
-
-  //* getBlogs State 
-  const [getBlogs, setGetBlogs] = useState();
-  
   const getAllBlogs = async () => {
-
     try {
-      const productTemp = await getDoc(doc(db, "blogPost", params.id))
-      if (productTemp.exists()) {
-        setGetBlogs(productTemp.data());
+      const docRef = doc(db, "blogPost", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setBlog(docSnap.data());
       } else {
-        console.log("Document does not exist")
+        console.log("Document does not exist");
       }
-   
     } catch (error) {
-      console.log(error)
-    
+      console.error("Error fetching blog:", error);
     }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getAllBlogs();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <p className="text-gray-500 text-lg">Loading...</p>
+      </div>
+    );
   }
-  
-  useEffect(()=>{
-    getAllBlogs()
-   },[])
-   
+
+  if (!blog) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <p className="text-gray-500 text-lg">Blog not found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div>blog info</div>
-  )
-}
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-gray-50 ">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+    
+          <img
+            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3v9FKcyHupS86T0HeJc6eBWrUfP8NouOG5Q&s'
+            alt={blog.title}
+            className="w-full h-64 object-cover"
+          />
+        
+        <div className="p-6">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">{blog.title}</h1>
+          <p className="text-sm text-gray-500 mb-4">
+            Category: <span className="font-medium text-gray-700">{blog.category}</span>
+          </p>
+          <div className="text-gray-700 leading-relaxed whitespace-pre-line">
+            {blog.content}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default BlogInfo
+export default BlogInfo;
