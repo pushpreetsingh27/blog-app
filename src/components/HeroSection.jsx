@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { auth } from "../firebase/config";
 
 const HeroSection = () => {
   return (
@@ -16,21 +18,22 @@ const HeroSection = () => {
             Create, Share, and React to Amazing Posts
           </h1>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            Unleash your creativity, share your thoughts, and engage with a vibrant community.
-            Your story deserves to be heard.
+            Unleash your creativity, share your thoughts, and engage with a
+            vibrant community. Your story deserves to be heard.
           </p>
           <div className="mt-8 flex justify-center lg:justify-start space-x-4">
-            <button className="bg-orange-700 text-white px-6 py-3 text-lg rounded-2xl shadow-lg hover:bg-orange-600">
-              Create a Post
-            </button>
-            <button className="bg-gray-200 text-orange-700 px-6 py-3 text-lg rounded-2xl shadow hover:bg-gray-300">
-              Explore Posts
-            </button>
+            <Link to={auth?.currentUser ? "/dashboard" : "/login"}>
+              <button className="bg-orange-700 text-white px-6 py-3 text-lg rounded-2xl shadow-lg hover:bg-orange-600">
+                Create a Post
+              </button>
+            </Link>
+            <Link to="/allblogs">
+              <button className="bg-gray-200 text-orange-700 px-6 py-3 text-lg rounded-2xl shadow hover:bg-gray-300">
+                Explore Posts
+              </button>
+            </Link>
           </div>
         </motion.div>
-
-  
-      
       </div>
 
       {/* Decorative Elements */}

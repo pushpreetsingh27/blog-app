@@ -61,8 +61,9 @@ const Header = () => {
        {
         auth?.currentUser ?
          <button
+         className="px-4 py-2  text-orange-600 font-semibold rounded-lg border-2 border-orange-700 hover:bg-orange-600 hover:text-white transition-colors"
          onClick={handleUserLogout}
-         >Log-out</button>
+         >Logout</button>
          :
           <Link
         to="/login"

@@ -8,6 +8,7 @@ import NoPage from "./pages/NoPage";
 import Dashboard from "./pages/Dashboard";
 import AllBlogs from "./pages/AllBlogs";
 import BlogInfo from "./pages/BlogInfo";
+import MyState from "./context/MyState";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -44,7 +45,11 @@ const App = () => {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+<MyState>
+  <RouterProvider router={router} />
+</MyState>
+  ) 
 };
 
 export default App;

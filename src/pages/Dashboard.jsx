@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import PostBlogModal from "../components/PostBlogModal";
+import MyContext from "../context/MyContext";
 
 const Dashboard = () => {
   const [userDetail, setUserDetail] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { allBlogs, deleteBlogs } = useContext(MyContext);
 
   const fetchUserDetail = async () => {
     auth.onAuthStateChanged(async (user) => {
-      const docRef = doc(db, "Users", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserDetail(docSnap.data());
-      } else {
-        console.log("No User Logged In");
+      if (user) {
+        const docRef = doc(db, "Users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserDetail(docSnap.data());
+        } else {
+          console.log("No User Logged In");
+        }
       }
     });
   };
@@ -25,7 +29,6 @@ const Dashboard = () => {
   useEffect(() => {
     fetchUserDetail();
   }, []);
-
 
   const handleAddBlog = () => {
     setIsModalOpen(true); // Open the modal when the "POST BLOG" button is clicked
@@ -56,10 +59,9 @@ const Dashboard = () => {
               Role - <span className="text-orange-500 font-medium">Software Engineer</span>
             </p>
             <p className="mt-2 text-lg md:text-xl">
-              Total Blogs - <span className="text-orange-500 font-medium">10</span>
+              Total Blogs - <span className="text-orange-500 font-medium">{allBlogs.length}</span>
             </p>
             <div className="flex gap-2 mt-3">
-            
               <button
                 className="bg-blue-400 py-1 px-5 text-white border border-black"
                 onClick={handleAddBlog}
@@ -87,28 +89,31 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {/* Dummy Row 1 */}
-              <tr className="hover:bg-orange-100 transition-colors">
-                <td className="px-4 py-3 text-orange-700">1</td>
-                <td className="px-4 py-3">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
-                    alt="Blog 1"
-                    className="w-12 h-12 object-cover rounded-lg"
-                  />
-                </td>
-                <td className="px-4 py-3 text-orange-700">Jan 15, 2025</td>
-                <td className="px-4 py-3 text-orange-700">First Blog Post</td>
-                <td className="px-4 py-3 text-orange-700">Tech</td>
-                <td className="px-4 py-3 space-x-2">
-                  <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
-                    Edit
-                  </button>
-                  <button className="bg-orange-700 text-white px-4 py-2 rounded-lg hover:bg-orange-800">
-                    Delete
-                  </button>
-                </td>
-              </tr>
+              {allBlogs.map((blog, index) => (
+                <tr key={blog.id} className="hover:bg-orange-100 transition-colors">
+                  <td className="px-4 py-3 text-orange-700">{index + 1}</td>
+                  <td className="px-4 py-3">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-oj_Vi4vpcTjA9FHrEHfCu55viohgsgL4fw&s"
+                      alt={`Blog ${index + 1}`}
+                      className="w-12 h-12 object-cover rounded-lg"
+                    />
+                  </td>
+                  <td className="px-4 py-3 text-orange-700">{blog.date}</td>
+                  <td className="px-4 py-3 text-orange-700">{blog.title}</td>
+                  <td className="px-4 py-3 text-orange-700">{blog.category}</td>
+                  <td className="px-4 py-3 space-x-2">
+                    <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+                      Edit
+                    </button>
+                    <button
+                        onClick={() => deleteBlogs(blog.id)}
+                    className="bg-orange-700 text-white px-4 py-2 rounded-lg hover:bg-orange-800">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
