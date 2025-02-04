@@ -1,79 +1,101 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import toast from "react-hot-toast";
-
+import { ThemeContext } from "../context/ThemeContext";
+import { Moon, Sun } from "lucide-react";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
-  const navigate = useNavigate()  
-
-    const handleUserLogout = async () => {
-        await auth.signOut();
-        navigate("/login");
-        toast.success("User Logged out");
-      };
-    
-
+  const handleUserLogout = async () => {
+    await auth.signOut();
+    navigate("/login");
+    toast.success("User Logged out");
+  };
 
   return (
-    <header className="shadow sticky z-50 top-0">
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+    <header className={`
+      sticky top-0 z-50 shadow-lg 
+      ${theme === 'light' 
+        ? 'bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700' 
+        : 'bg-gradient-to-r from-dark-bg to-dark-bg-secondary dark:text-dark-text'}
+    `}>
+      <nav className="px-6 py-4">
         <div className="flex justify-between items-center mx-auto max-w-screen-xl">
-          {/* Logo on the Left */}
-          <Link to="/" className="text-2xl font-bold text-orange-700">
+          <Link 
+            to="/" 
+            className={`
+              text-3xl font-extrabold tracking-wide 
+              ${theme === 'light' ? 'text-white' : 'text-dark-text'}
+            `}
+          >
             BlogTime
           </Link>
-
-          {/* Navigation Links on the Right */}
+          
           <div className="flex items-center space-x-8">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `py-2 px-3 font-medium ${
-                  isActive ? "text-orange-700" : "text-gray-700"
-                } hover:text-orange-700`
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                `py-2 px-3 font-medium ${
-                  isActive ? "text-orange-700" : "text-gray-700"
-                } hover:text-orange-700`
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/allblogs"
-              className={({ isActive }) =>
-                `py-2 px-3 font-medium ${
-                  isActive ? "text-orange-700" : "text-gray-700"
-                } hover:text-orange-700`
-              }
-            >
-              Blogs
-            </NavLink>
+            {['/', '/allblogs', '/dashboard'].map((path, index) => {
+              const linkTexts = ['Home', 'Blogs', 'Dashboard'];
+              return (
+                <NavLink
+                  key={path}
+                  to={path}
+                  className={({ isActive }) => `
+                    text-lg font-medium 
+                    ${theme === 'light' 
+                      ? 'text-white hover:text-orange-100' 
+                      : 'text-dark-text-muted hover:text-dark-text'}
+                    py-2 px-3 transition-all duration-300 
+                    ${isActive ? `border-b-2 ${theme === 'light' ? 'border-orange-200' : 'border-dark-text'}` : ''}
+                  `}
+                >
+                  {linkTexts[index]}
+                </NavLink>
+              );
+            })}
 
-       {
-        auth?.currentUser ?
-         <button
-         className="px-4 py-2  text-orange-600 font-semibold rounded-lg border-2 border-orange-700 hover:bg-orange-600 hover:text-white transition-colors"
-         onClick={handleUserLogout}
-         >Logout</button>
-         :
-          <Link
-        to="/login"
-        className="px-4 py-2  text-orange-600 font-semibold rounded-lg border-2 border-orange-700 hover:bg-orange-600 hover:text-white transition-colors"
-      >
-        Login
-      </Link>
-       }
-           
-           
+            <button
+              onClick={toggleTheme}
+              className={`
+                p-2 transition-all duration-300 
+                ${theme === 'light' 
+                  ? 'text-white hover:text-orange-200' 
+                  : 'text-dark-text hover:text-dark-text-muted'}
+              `}
+            >
+              {theme === "light" ? (
+                <Moon size={24} />
+              ) : (
+                <Sun size={24} />
+              )}
+            </button>
+
+            {auth?.currentUser ? (
+              <button
+                className={`
+                  px-6 py-2 font-semibold rounded-full transition-all duration-300
+                  ${theme === 'light'
+                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                    : 'bg-orange-dark hover:bg-orange-700 text-dark-bg'}
+                `}
+                onClick={handleUserLogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className={`
+                  px-6 py-2 font-semibold rounded-full transition-all duration-300
+                  ${theme === 'light'
+                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                    : 'bg-orange-dark hover:bg-orange-700 text-dark-bg'}
+                `}
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </nav>

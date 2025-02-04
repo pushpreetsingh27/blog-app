@@ -37,19 +37,18 @@ const MyState = ({ children }) => {
     getAllBlogs();
   }, []);
 
-
   const deleteBlogs = async (id) => {
     try {
-        await deleteDoc(doc(db, "blogPost", id));
-        getAllBlogs()
-        toast.success("Blog deleted successfully")
+      await deleteDoc(doc(db, "blogPost", id));
+      getAllBlogs();
+      toast.success("Blog deleted successfully");
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
   return (
-    <MyContext.Provider value={{ mode, toggleMode, allBlogs, getAllBlogs , deleteBlogs}}>
+    <MyContext.Provider value={{ mode, toggleMode, allBlogs, getAllBlogs, deleteBlogs }}>
       {children}
     </MyContext.Provider>
   );

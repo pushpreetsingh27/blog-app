@@ -48,7 +48,7 @@ const BlogInfo = () => {
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
     
           <img
-            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3v9FKcyHupS86T0HeJc6eBWrUfP8NouOG5Q&s'
+            src={blog.imageUrl}
             alt={blog.title}
             className="w-full h-64 object-cover"
           />

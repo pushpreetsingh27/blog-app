@@ -1,14 +1,18 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Home from "./pages/Home";
+
 import AppLayout from "./app-layout/AppLayout";
 import NoPage from "./pages/NoPage";
-import Dashboard from "./pages/Dashboard";
-import AllBlogs from "./pages/AllBlogs";
+ 
 import BlogInfo from "./pages/BlogInfo";
 import MyState from "./context/MyState";
+import ThemeProvider from "./context/ThemeContext";
+
+const Home = React.lazy(() => import("./pages/Home"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const AllBlogs = React.lazy(() => import("./pages/AllBlogs"));
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,7 +23,11 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Home />
+            </Suspense>
+          ),
         },
         {
           path: "/login",
@@ -31,25 +39,39 @@ const App = () => {
         },
         {
           path: "/dashboard",
-          element: <Dashboard />,
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Dashboard />
+            </Suspense>
+          ),
         },
         {
           path: "/allblogs",
-          element: <AllBlogs />,
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <AllBlogs />
+            </Suspense>
+          ),
         },
         {
           path: "/blog/:id",
-          element: <BlogInfo />,
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <BlogInfo />
+            </Suspense>
+          ),
         },
       ],
     },
   ]);
 
   return (
-<MyState>
-  <RouterProvider router={router} />
-</MyState>
-  ) 
+    <ThemeProvider>
+    <MyState>
+      <RouterProvider router={router} />
+    </MyState>
+  </ThemeProvider>
+  );
 };
 
 export default App;
