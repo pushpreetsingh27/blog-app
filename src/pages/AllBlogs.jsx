@@ -62,14 +62,6 @@ const AllBlogs = () => {
                 </span>
                 {blog.category}
               </p>
-              {/* <p
-                className={`mb-4 ${
-                  theme === "dark" ? "text-gray-300" : "text-gray-600"
-                }`}
-                dangerouslySetInnerHTML={{
-                  __html: `${blog.content.substring(0, 200)}...`,
-                }}
-              /> */}
 
               <div
                 className={`flex justify-between text-sm ${

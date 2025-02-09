@@ -8,6 +8,13 @@ const BlogInfo = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", 
+    });
+  }, [id]);
+
   const getAllBlogs = async () => {
     try {
       const docRef = doc(db, "blogPost", id);

@@ -8,6 +8,7 @@ const featuredBlog = {
   content:
     "Dive deep into the innovations shaping tomorrow's world. From AI breakthroughs to quantum computing, discover how technology is evolving and what it means for our society. Get inspired by the transformative potential of modern tech and see how these trends can shape a better future.",
   image: "https://img.freepik.com/premium-photo/plexus-style-background-high-tech-digital-technology-background-creative-technology-background-with-plexus-optical-flares-data-visualization-cyberspace-big-data-technology-3d-rendering_105386-2221.jpg",
+  id: "K9GELatrzmL2azBeGEL6"
 };
 
 const smallBlogs = [
@@ -17,6 +18,7 @@ const smallBlogs = [
     content:
       "Learn how digital tools and wearables are transforming personal wellness and healthcare delivery.",
     image: "https://i.pinimg.com/736x/c5/2f/a5/c52fa54e72a9cc0c13710406a49ebbdc.jpg",
+     id : "gHs0IlD1jhuiZqa4yU4h"
   },
   {
     title: "Sports Analytics: Changing the Game",
@@ -24,6 +26,8 @@ const smallBlogs = [
     content:
       "Discover how data-driven insights are revolutionizing team strategies and athletic performance on and off the field.",
     image: "https://i.pinimg.com/736x/78/4e/75/784e75aa1c454c56b5f695ddcfbf895e.jpg",
+    id : "UmcNpzpckjRxJZTlywXr"
+  
   },
   {
     title: "Digital Diplomacy and Modern Politics",
@@ -31,6 +35,7 @@ const smallBlogs = [
     content:
       "Explore how social media and digital campaigns are reshaping political narratives and voter engagement.",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG1ReRkiZopdl_rVhfXsUPjjqnlwGLhdwdLg&s",
+     id : "U3qbmB1GkuIQHLoerLQ1"
   },
 ];
 
@@ -38,9 +43,7 @@ const BlogSection = () => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
-  const handleDummyBlogClick = () => {
-    // Add navigation logic if needed
-  };
+ 
 
   return (
     <section className={`py-12 ${
@@ -57,7 +60,7 @@ const BlogSection = () => {
                 src={featuredBlog.image}
                 alt={featuredBlog.title}
                 className="w-full h-full object-cover"
-                onClick={handleDummyBlogClick}
+                onClick={()=> navigate(`/blog/${featuredBlog.id}`)}
               />
             </div>
             <div className="p-8 md:w-1/2 flex flex-col justify-center">
@@ -93,7 +96,7 @@ const BlogSection = () => {
                 src={blog.image}
                 alt={blog.title}
                 className="w-full h-48 object-cover"
-                onClick={handleDummyBlogClick}
+                onClick={() => navigate(`/blog/${blog.id}`)}
               />
               <div className="p-6">
                 <span className={`text-xs font-medium uppercase ${
