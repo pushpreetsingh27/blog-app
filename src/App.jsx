@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 
 import AppLayout from "./app-layout/AppLayout";
 import NoPage from "./pages/NoPage";
+
  
 import BlogInfo from "./pages/BlogInfo";
 import MyState from "./context/MyState";
@@ -60,7 +61,7 @@ const App = () => {
               <BlogInfo />
             </Suspense>
           ),
-        },
+        }
       ],
     },
   ]);

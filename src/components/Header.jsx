@@ -16,38 +16,43 @@ const Header = () => {
   };
 
   return (
-    <header className={`
-      sticky top-0 z-50 shadow-lg 
-      ${theme === 'light' 
-        ? 'bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700' 
-        : 'bg-gradient-to-r from-dark-bg to-dark-bg-secondary dark:text-dark-text'}
-    `}>
-      <nav className="px-6 py-4">
-        <div className="flex justify-between items-center mx-auto max-w-screen-xl">
-          <Link 
-            to="/" 
+    <header
+      className={`
+        sticky top-0 z-50 transition-all 
+        ${theme === "light" 
+          ? "bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 shadow-lg" 
+          : "bg-gray-900 shadow-md border-b border-gray-700"}
+      `}
+    >
+      <nav className="px-8 py-3 max-w-screen-xl mx-auto">
+        <div className="flex justify-between items-center">
+          <Link
+            to="/"
             className={`
-              text-3xl font-extrabold tracking-wide 
-              ${theme === 'light' ? 'text-white' : 'text-dark-text'}
+              text-4xl font-extrabold tracking-tight 
+              ${theme === "light" ? "text-white" : "text-gray-100"}
             `}
           >
-            BlogTime
+            blog<span className={`
+              ${theme === "light" ? "text-white" : "text-orange-600"}
+            `}>Time</span>
           </Link>
-          
-          <div className="flex items-center space-x-8">
-            {['/', '/allblogs', '/dashboard'].map((path, index) => {
-              const linkTexts = ['Home', 'Blogs', 'Dashboard'];
+
+          <div className="flex items-center space-x-6">
+            {["/", "/allblogs", "/dashboard"].map((path, index) => {
+              const linkTexts = ["Home", "Blogs", "Dashboard"];
               return (
                 <NavLink
                   key={path}
                   to={path}
                   className={({ isActive }) => `
-                    text-lg font-medium 
-                    ${theme === 'light' 
-                      ? 'text-white hover:text-orange-100' 
-                      : 'text-dark-text-muted hover:text-dark-text'}
-                    py-2 px-3 transition-all duration-300 
-                    ${isActive ? `border-b-2 ${theme === 'light' ? 'border-orange-200' : 'border-dark-text'}` : ''}
+                    text-lg font-medium
+                    ${theme === "light" 
+                      ? "text-white hover:text-orange-100" 
+                      : "text-gray-300 hover:text-gray-100"}
+                    py-1 px-3 border-b-2 
+                    ${isActive ? "border-orange-300" : "border-transparent"}
+                    transition-all duration-300
                   `}
                 >
                   {linkTexts[index]}
@@ -58,26 +63,20 @@ const Header = () => {
             <button
               onClick={toggleTheme}
               className={`
-                p-2 transition-all duration-300 
-                ${theme === 'light' 
-                  ? 'text-white hover:text-orange-200' 
-                  : 'text-dark-text hover:text-dark-text-muted'}
+                p-2 rounded-full transition-all 
+                ${theme === "light" ? "text-white" : "text-gray-300"}
               `}
             >
-              {theme === "light" ? (
-                <Moon size={24} />
-              ) : (
-                <Sun size={24} />
-              )}
+              {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
             </button>
 
             {auth?.currentUser ? (
               <button
                 className={`
-                  px-6 py-2 font-semibold rounded-full transition-all duration-300
-                  ${theme === 'light'
-                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
-                    : 'bg-orange-dark hover:bg-orange-700 text-dark-bg'}
+                  px-5 py-2 font-semibold rounded-full transition-all
+                  ${theme === "light"
+                    ? "bg-orange-700 hover:bg-orange-800 text-white"
+                    : "bg-gray-800 hover:bg-gray-700 text-gray-100"}
                 `}
                 onClick={handleUserLogout}
               >
@@ -87,10 +86,10 @@ const Header = () => {
               <Link
                 to="/login"
                 className={`
-                  px-6 py-2 font-semibold rounded-full transition-all duration-300
-                  ${theme === 'light'
-                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
-                    : 'bg-orange-dark hover:bg-orange-700 text-dark-bg'}
+                  px-5 py-2 font-semibold rounded-full transition-all
+                  ${theme === "light"
+                    ? "bg-orange-700 hover:bg-orange-800 text-white"
+                    : "bg-gray-800 hover:bg-gray-700 text-gray-100"}
                 `}
               >
                 Login

@@ -84,11 +84,6 @@ const Dashboard = () => {
             <p className={`text-lg md:text-xl ${
               theme === 'dark' ? 'text-gray-300' : 'text-orange-500'
             }`}>
-              Role - <span className="font-medium">Software Engineer</span>
-            </p>
-            <p className={`text-lg md:text-xl ${
-              theme === 'dark' ? 'text-gray-300' : 'text-orange-500'
-            }`}>
               Total Blogs - <span className="font-medium">{userBlogs.length}</span>
             </p>
             <button

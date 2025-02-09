@@ -3,6 +3,9 @@ import toast from 'react-hot-toast';
 import { db, auth } from '../firebase/config'; // Added auth import
 import { collection, addDoc, Timestamp, updateDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 const PostBlogModal = ({ isOpen, onClose, blogData }) => {
   if (!isOpen) return null;
@@ -179,18 +182,9 @@ const PostBlogModal = ({ isOpen, onClose, blogData }) => {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Content*
-            </label>
-            <textarea
-              placeholder="Add Blog Description"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows="4"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+         <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Content*</label>
+            <ReactQuill value={content} onChange={setContent} className="h-60" />
           </div>
 
           <div>
