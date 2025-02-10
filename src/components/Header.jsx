@@ -33,9 +33,9 @@ const Header = () => {
               ${theme === "light" ? "text-white" : "text-gray-100"}
             `}
           >
-            blog<span className={`
+            Post<span className={`
               ${theme === "light" ? "text-white" : "text-orange-600"}
-            `}>Time</span>
+            `}>Sphere</span>
           </Link>
 
           <div className="flex items-center space-x-6">
