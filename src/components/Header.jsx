@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import toast from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleUserLogout = async () => {
     await auth.signOut();
@@ -38,27 +39,57 @@ const Header = () => {
             `}>Sphere</span>
           </Link>
 
-          <div className="flex items-center space-x-6">
-            {["/", "/allblogs", "/dashboard"].map((path, index) => {
-              const linkTexts = ["Home", "Blogs", "Dashboard"];
-              return (
-                <NavLink
-                  key={path}
-                  to={path}
-                  className={({ isActive }) => `
-                    text-lg font-medium
-                    ${theme === "light" 
-                      ? "text-white hover:text-orange-100" 
-                      : "text-gray-300 hover:text-gray-100"}
-                    py-1 px-3 border-b-2 
-                    ${isActive ? "border-orange-300" : "border-transparent"}
-                    transition-all duration-300
-                  `}
-                >
-                  {linkTexts[index]}
-                </NavLink>
-              );
-            })}
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden text-white p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+          {/* Navigation Links */}
+          <div className={`
+            lg:flex lg:items-center lg:space-x-6 
+            ${menuOpen ? "absolute top-full left-0 w-full bg-gray-900 p-6 flex flex-col space-y-4" : "hidden lg:flex"}
+          `}>
+            <NavLink
+              to="/"
+              className={({ isActive }) => `
+                text-lg font-medium
+                ${theme === "light" ? "text-white hover:text-orange-100" : "text-gray-300 hover:text-gray-100"}
+                py-1 px-3 border-b-2 
+                ${isActive ? "border-orange-300" : "border-transparent"}
+                transition-all duration-300
+              `}
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/allblogs"
+              className={({ isActive }) => `
+                text-lg font-medium
+                ${theme === "light" ? "text-white hover:text-orange-100" : "text-gray-300 hover:text-gray-100"}
+                py-1 px-3 border-b-2 
+                ${isActive ? "border-orange-300" : "border-transparent"}
+                transition-all duration-300
+              `}
+            >
+              Blogs
+            </NavLink>
+
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => `
+                text-lg font-medium
+                ${theme === "light" ? "text-white hover:text-orange-100" : "text-gray-300 hover:text-gray-100"}
+                py-1 px-3 border-b-2 
+                ${isActive ? "border-orange-300" : "border-transparent"}
+                transition-all duration-300
+              `}
+            >
+              Dashboard
+            </NavLink>
 
             <button
               onClick={toggleTheme}
